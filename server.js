@@ -1,27 +1,35 @@
 'use strict'
-import axios from 'axios'
-
+//import axios from 'axios'
+const PORT = process.env.PORT
 require('dotenv').config();
 const express = require('express');
+const app = express();
 const cors = require('cors');
 
-const app = express()
-console.log(app);
+
+const requestWeather = require('./data/weather.json');
+// const { response } = require('express');
+
+
+
 app.use(cors());
 
-const PORT = process.env.PORT
 
 
-// set up routes
+app.get('/data/weather.json', handleGetWeather)
 
-app.get('/test', handleGetTest)
 
-function handleGetChristmasList(request, response) {
-    res.status(200).send(list);
+function handleGetWeather(request, response) {
+    response.send(requestWeather);
 }
 
-function handleGetTest(request, response) {
-    response.send('your test worked!');
-}
 
-app.listen(PORT, () => console.log('server is listening on port ', PORT));
+// function handleWeather(request, response) {
+//     response.status(200).send(requestWeather);
+//     response.send('weather info incoming');
+// }
+
+
+
+
+app.listen(PORT, () => console.log('server is listening on port: ', PORT));
