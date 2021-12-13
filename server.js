@@ -3,7 +3,6 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-//const weatherData = require('./data/weather.json'); // formerly requestWeather data/weather.json
 
 const axios = require('axios');
 
@@ -28,13 +27,7 @@ function handleGetWeather(req, res) {
     console.log(req.query)
     axios.get(url)
       .then(results => {        
-        // console.log("results: " + results);
-        // let str = JSON.stringify(results.data.data);
-        // console.log("results stringified: " + str);
         let weatherDescriptions = results.data.data.map(day => new Forecast(day));
-        // console.log(weatherDescriptions[0].date);
-        // console.log(weatherDescriptions[0].description);
-        // console.log(typeof(weatherDescriptions))
         res.status(200).send(weatherDescriptions);
       })
       .catch (error => {
@@ -83,36 +76,5 @@ class Movies {
         this.released_on = obj.release_date
     }
 }
-
-
-
-// try {
-//     let results => {} = await axios.get(url);
-//     this.setState{}
-// } catch (error) {
-//   console.log(error);
-// }
-
-// newWeatherItem.map(weather => new Forecast(weather));
-// res.sendStatus(200).send(weatherData);
-// res.sendStatus(200).send(findlat);
-// res.sendStatus(200).send(findlon);
-
-// function handleGetMovies(req, res) {
-
-//     const { city_name } = req.query;
-//     const url = `https://api.themoviedb.org/3/movie/550?api_key=${process.env.MOVIE_API_KEY}
-// &language=en-US&wuery=${city_name}$page=1&include_adult=false`
-
-
-
-//     const movieResponse = await axios.get(url);
-//     const cleanedMovies = movieResponse.data.map(movie => new Movies(movie));
-//     res.send(cleanedMovies.data);
-//     console.log(cleanedMovies.data)
-
-// }
-    
-//     .catch(error => console.log(error));
 
 app.listen(PORT, () => console.log('Hey Ryan, the server is listening on port: ', PORT));
