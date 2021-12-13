@@ -3,7 +3,7 @@
 Trello: https://trello.com/b/xF9mnrOu/city-explorer
 
 **Author**: Ryan Lee
-**Version**: 1.0.3 (increment the patch/fix version number if you make more commits past your first submission)
+**Version**: 0.0.5 (increment the patch/fix version number if you make more commits past your first submission)
 
 ## Overview
 Provide a method for users to enter a city name, get the latitude and longitude of the city, and display a map of the location.
@@ -52,13 +52,15 @@ Start time: 3:02PM
 
 Finish time: 
 
+Actual time needed to complete: Quite a While.
+
+Name of feature: Cache
+
+Estimate of time needed to complete: 3hrs
+
+Start time: 12:31AM
+
+Finish time: 
+
 Actual time needed to complete:
 
-
-## Data Cycle/Stream Lab 06
-
-![Data Cycle](./webrequestcycle.PNG)
-
-## Data Cycle/Stream Lab 07
-
-![Data Cycle 2](./webrequestcyclelab07.PNG)
