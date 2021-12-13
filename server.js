@@ -14,6 +14,7 @@ const PORT = process.env.PORT;
 
 app.get('/test', ((request, response) => response.send('server workin'))); // test only
 app.get('/weather', handleGetWeather);
+app.get('/movies', handleGetMovies);
 app.get('/*', errorHandler); // error stuff
 
 async function errorHandler(req, res) {
@@ -23,20 +24,16 @@ async function errorHandler(req, res) {
 }
 
 function handleGetWeather(req, res) {
-
-    const url = `http://api.weatherbit.io/v2.0/forecast/daily?lat=${req.query.lat}&lon=${req.query.lon}&key=${process.env.WEATHER_API_KEY}&units=I`;
-    
-
+    const url = `http://api.weatherbit.io/v2.0/forecast/daily?lat=${req.query.lat}&lon=${req.query.lon}&key=${process.env.WEATHER_API_KEY}&units=I`;  
     console.log(req.query)
-
     axios.get(url)
       .then(results => {        
         // console.log("results: " + results);
         // let str = JSON.stringify(results.data.data);
         // console.log("results stringified: " + str);
         let weatherDescriptions = results.data.data.map(day => new Forecast(day));
-        console.log(weatherDescriptions[0].date);
-        console.log(weatherDescriptions[0].description);
+        // console.log(weatherDescriptions[0].date);
+        // console.log(weatherDescriptions[0].description);
         // console.log(typeof(weatherDescriptions))
         res.status(200).send(weatherDescriptions);
       })
@@ -56,37 +53,36 @@ class Forecast {
     }
 }
 
-// let findlat = request.query.lat;
-// let findlon = request.query.lon;
+function handleGetMovies(req, res) {
+    const { city_name } = req.query;
+    
+    const url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&language=en-US&query=${city_name}`;
 
-// async function handleGetMovies(req, res) {
+ axios.get(url)
+.then(movieResponse => { 
+    let cleanedMovies = movieResponse.data.results.map(movie => new Movies(movie));
+    
+    console.log(cleanedMovies);
+    res.status(200).send(cleanedMovies);
+    
+})
+.catch (error => {
+    console.error(error.message);
+    res.status(500).send('server error');
+  });
+}
 
-//     const { city_name } = req.query;
-
-
-//     // put in a try catch (error)
-//     const url = `https://api.themoviedb.org/3/movie/550?api_key=${process.env.MOVIE_API_KEY}
-// &language=en-US&wuery=${city_name}$page=1&include_adult=false`
-
-//     const movieResponse = await axios.get(url);
-//     const cleanedMovies = movieResponse.data.map(movie => new Movies(movie));
-//     res.send(cleanedMovies.data);
-
-// }
-
-// obj is the stuff in the object
-
-// class Movies {
-//     constructor(obj) {
-//         this.title = obj.title,
-//         this.overview = obj.overview,
-//         this.average_votes = obj.average_votes,
-//         this.total_votes = obj.total_votes,
-//         this.image_url = obj.image_url,
-//         this.popularity = obj.popularity,
-//         this.released_on = obj.released_on
-//     }
-// }
+class Movies {
+    constructor(obj) {
+        this.title = obj.title,
+        this.overview = obj.overview,
+        this.average_votes = obj.vote_average,
+        this.total_votes = obj.vote_count,
+        this.image_url = `https://www.themoviedb.org/t/p/w1280/${obj.poster_path}`,
+        this.popularity = obj.popularity,
+        this.released_on = obj.release_date
+    }
+}
 
 
 
@@ -102,7 +98,20 @@ class Forecast {
 // res.sendStatus(200).send(findlat);
 // res.sendStatus(200).send(findlon);
 
+// function handleGetMovies(req, res) {
 
+//     const { city_name } = req.query;
+//     const url = `https://api.themoviedb.org/3/movie/550?api_key=${process.env.MOVIE_API_KEY}
+// &language=en-US&wuery=${city_name}$page=1&include_adult=false`
+
+
+
+//     const movieResponse = await axios.get(url);
+//     const cleanedMovies = movieResponse.data.map(movie => new Movies(movie));
+//     res.send(cleanedMovies.data);
+//     console.log(cleanedMovies.data)
+
+// }
     
 //     .catch(error => console.log(error));
 
