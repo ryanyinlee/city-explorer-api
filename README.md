@@ -60,7 +60,7 @@ Estimate of time needed to complete: 3hrs
 
 Start time: 12:31AM
 
-Finish time: 
+Finish time: 3:02AM
 
-Actual time needed to complete:
+Actual time needed to complete: About 2.5 hours.
 
